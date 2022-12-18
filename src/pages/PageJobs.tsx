@@ -1,4 +1,7 @@
-import _jobs from '../data/jobs.json'
+import axios from "axios";
+import { useEffect, useState } from "react";
+
+
 
 type Job = {
 	id: number,
@@ -10,9 +13,19 @@ type Job = {
 	todo: string,
 }
 
-const jobs: Job[] = _jobs as any[]
 
+const url = 'http://localhost:5000';
+ 
 export const PageJobs = () => {
+	const [jobs, setJobs] = useState<Job[]>([]);
+	 
+	useEffect(() => {
+		(async () => {
+			setJobs((await axios.get(`${url}/jobs`)).data);
+		})();
+	}, []);
+	
+
 	return (
 		<div className="pageJobs">
 			<div className="jobs">
