@@ -22,4 +22,45 @@ body {
 			color: rgb(211, 211, 110);
 		}
 	}
+
+	.pageJobs {
+		.jobs {
+			.job {
+				background-color: #222;
+				padding: 1rem;
+				margin-bottom: 1rem;
+
+				div {
+					margin-bottom: .5rem;
+				}
+
+				.title {
+					a {
+						color: rgb(176, 146, 91);
+						font-size: 1.5rem;
+					}
+				}
+
+				.company {
+					color: rgb(208, 208, 114);
+				}
+
+				.description {
+					font-style: italic;
+					color: #999;
+				}
+
+				.skills {
+					color: green;
+					font-family: 'Courier New', Courier, monospace;
+				}
+
+				.todo {
+					color: rgb(232, 133, 116);
+					font-family: 'Courier New', Courier, monospace;
+					font-weight: bold;
+				}
+			}
+		}
+	}
 }

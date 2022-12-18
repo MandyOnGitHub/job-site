@@ -7,7 +7,7 @@ import { PageSkills } from './pages/PageSkills'
 function App() {
 	return (
 		<div className="App">
-			<h1>Info Site</h1>
+			<h1>Get a Job</h1>
 			<nav>
 				<NavLink to="/dashboard">Dashboard</NavLink>
 				<NavLink to="/jobs">Jobs</NavLink>
