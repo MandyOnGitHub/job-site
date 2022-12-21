@@ -11,8 +11,8 @@ export const PageDashboard = () => {
 			<div className="todos">
 				{todos.map((todo:any, i:any)=>{
 					return(
-						<ul>
-							<li key={i} >{todo.text}: <a target="_blanc" href={todo.url}>{todo.title} at {todo.company}</a></li>
+						<ul key={i}>
+							<li  >{todo.todoText}: <a target="_blanc" href={todo.url}>{todo.company}</a> {todo.title}</li>
 						</ul>
 					)
 				})}
