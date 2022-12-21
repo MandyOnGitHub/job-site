@@ -8,6 +8,7 @@ interface IAppContext {
     todos: ITodo[],
     totaledSkills: ITotaledSkill[];
     handleToggleTotaledSkill: (totaledSkill: ITotaledSkill) => void;
+    handleDeleteJob: (job: IJob) => void;
 }
  
 interface IAppProvider {
@@ -22,8 +23,6 @@ export const AppProvider: React.FC<IAppProvider> = ({ children }) => {
     const [jobs, setJobs] = useState<IJob[]>([]);
     const [todos, setTodos] = useState<ITodo[]>([]);
     const [totaledSkills, setTotaledSkills] = useState<ITotaledSkill[]>([]);
-     
-    console.log(totaledSkills);
     
 
     const loadJobs = () => {
@@ -45,38 +44,63 @@ export const AppProvider: React.FC<IAppProvider> = ({ children }) => {
         setTotaledSkills([...totaledSkills]);
     };
 
+    const loadTotaledSkills = async () => {
+        const _totaledSkills: ITotaledSkill[] = (
+            await axios.get(`${backendUrl}/totaledSkills`)
+        ).data;
+        _totaledSkills.sort(
+            (a: ITotaledSkill, b: ITotaledSkill) =>
+                Number(b.total) - Number(a.total)
+        );
+        _totaledSkills.forEach((_totaledSkill) => {
+            _totaledSkill.isOpen = false;
+            if (_totaledSkill.skill.name) {
+                _totaledSkill.lookupInfoLink = `https://www.google.com/search?client=firefox-b-d&q=web+development+${_totaledSkill.skill.name}`;
+            } else {
+                _totaledSkill.lookupInfoLink = `https://www.google.com/search?client=firefox-b-d&q=web+development+${_totaledSkill.skill.idCode}`;
+            }
+        });
+        setTotaledSkills(_totaledSkills);
+    };
 
-    
-	useEffect(() => {
-        loadTodos()
-	}, []);    
-    
-    
-    useEffect(() => {
-        loadJobs()
-    }, []);
+    const handleDeleteJob = async (job: IJob) => {
+        try {
+            const res = await axios.delete(`${backendUrl}/jobs/${job.id}`);
+            if (res.status = 200) {
+                // const _jobs = jobs.filter((availableJobs: IJob) => availableJobs.id !== job.id);
+                // setJobs([..._jobs]);
+                await loadJobs();
+                await loadTodos();
+                await loadTotaledSkills();
+            } else {
+                console.log(res)
+            }
+        } catch (e: any) {
+            console.log(e);
+            
+        }
+    };
+     
+
 
     useEffect(() => {
         (async () => {
-            const _totaledSkills: ITotaledSkill[] = (
-                await axios.get(`${backendUrl}/totaledSkills`)
-            ).data;
-            _totaledSkills.sort(
-                (a: ITotaledSkill, b: ITotaledSkill) =>
-                    Number(b.total) - Number(a.total)
-            );
-            _totaledSkills.forEach((_totaledSkill) => {
-                _totaledSkill.isOpen = false;
-                if (_totaledSkill.skill.name) {
-                    _totaledSkill.lookupInfoLink = `https://www.google.com/search?client=firefox-b-d&q=web+development+${_totaledSkill.skill.name}`;
-                } else {
-                    _totaledSkill.lookupInfoLink = `https://www.google.com/search?client=firefox-b-d&q=web+development+${_totaledSkill.skill.idCode}`;
-                }
-            });
-            setTotaledSkills(_totaledSkills);
+            await loadJobs();
         })();
     }, []);
      
+    useEffect(() => {
+        (async () => {
+            await loadTodos();
+        })();
+    }, []);
+     
+    useEffect(() => {
+        (async () => {
+            await loadTotaledSkills();
+        })();
+    }, []);
+    
 
     return (
         <AppContext.Provider
@@ -85,6 +109,7 @@ export const AppProvider: React.FC<IAppProvider> = ({ children }) => {
                 todos,
                 totaledSkills,
                 handleToggleTotaledSkill,
+                handleDeleteJob
             }}
         >
             {children}

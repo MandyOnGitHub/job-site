@@ -84,6 +84,20 @@ body {
 					display: inline-block;
 					border-radius: .4rem;
 				}
+				.managePanel {
+					display: flex;
+					justify-content: flex-end;
+					button {
+						background-color: #555;
+						border: 0;
+						cursor: pointer;
+						font-size: 1.2rem;
+						border-radius: .3rem;
+						&:hover {
+							background-color:rgb(152, 64, 46);
+						}
+					}
+				}
 			}
 		}
 
