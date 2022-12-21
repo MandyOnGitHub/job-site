@@ -22,3 +22,10 @@ export interface ITodo {
 	title: string;
 	url: string;
 }
+
+export interface ITotaledSkill {
+    skill: ISkill,
+    total: number,
+    isOpen: boolean, 
+    lookupInfoLink: string,
+}
