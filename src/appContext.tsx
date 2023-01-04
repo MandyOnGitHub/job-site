@@ -9,6 +9,7 @@ interface IAppContext {
     totaledSkills: ITotaledSkill[];
     handleToggleTotaledSkill: (totaledSkill: ITotaledSkill) => void;
     handleDeleteJob: (job: IJob) => void;
+    handleEditJob: (job: IJob) => void;
 }
  
 interface IAppProvider {
@@ -87,6 +88,11 @@ export const AppProvider: React.FC<IAppProvider> = ({ children }) => {
             
         }
     };
+
+    const handleEditJob = (job: IJob) => {
+        job.userIsEditing = !job.userIsEditing;
+        setJobs([...jobs])
+    }
      
 
 
@@ -116,7 +122,8 @@ export const AppProvider: React.FC<IAppProvider> = ({ children }) => {
                 todos,
                 totaledSkills,
                 handleToggleTotaledSkill,
-                handleDeleteJob
+                handleDeleteJob,
+                handleEditJob
             }}
         >
             {children}
