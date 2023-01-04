@@ -7,6 +7,7 @@ export interface IJob  {
     skillList: string;
     skills: ISkill[];
     todo: string;
+    userIsEditing: boolean;
 }
  
 export interface ISkill  {
@@ -28,4 +29,15 @@ export interface ITotaledSkill {
     total: number,
     isOpen: boolean, 
     lookupInfoLink: string,
+}
+
+export interface IBackendJob  {
+    id: number;
+    title: string;
+    company: string;
+    url: string;
+    description: string;
+    skillList: string;
+    skills: ISkill[];
+    todo: string;
 }
